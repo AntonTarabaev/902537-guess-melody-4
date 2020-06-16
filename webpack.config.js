@@ -1,4 +1,5 @@
 const path = require('path');
+const webpack = require('webpack');
 
 module.exports = (env) => {
   return {
@@ -15,6 +16,12 @@ module.exports = (env) => {
       hot: true,
       port: 1337,
     },
+    plugins: [
+      new webpack.ProvidePlugin({
+        React: 'react',
+        PropTypes: 'prop-types',
+      }),
+    ],
     module: {
       rules: [
         {
