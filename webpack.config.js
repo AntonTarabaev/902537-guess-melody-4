@@ -36,7 +36,7 @@ module.exports = (env) => {
     devtool: env.devtool,
     resolve: {
       alias: {
-        '@': path.resolve(__dirname, './src'),
+        '@root': path.resolve(__dirname, './src'),
       },
       extensions: ['*', '.js', '.jsx']
     }
