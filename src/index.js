@@ -1,6 +1,6 @@
 import ReactDOM from "react-dom";
-import App from "@/components/app/app";
-import {Settings} from "@/consts";
+import App from "@root/components/app/app";
+import {Settings} from "@root/consts";
 
 ReactDOM.render(
     <App

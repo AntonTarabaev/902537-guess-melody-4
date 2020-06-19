@@ -1,4 +1,6 @@
-import WelcomeScreen from "@/components/welcome-screen/welcome-screen";
+import WelcomeScreen from "@root/components/welcome-screen/welcome-screen";
+
+const welcomeButtonClickHandler = () => {};
 
 const App = (props) => {
   const {errorsCount} = props;
@@ -6,6 +8,7 @@ const App = (props) => {
   return (
     <WelcomeScreen
       errorsCount={errorsCount}
+      onWelcomeButtonClick={welcomeButtonClickHandler}
     />
   );
 };
