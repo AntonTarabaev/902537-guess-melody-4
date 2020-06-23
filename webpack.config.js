@@ -15,6 +15,7 @@ module.exports = (env) => {
       inline: true,
       hot: true,
       port: 1337,
+      historyApiFallback: true,
     },
     plugins: [
       new webpack.ProvidePlugin({
