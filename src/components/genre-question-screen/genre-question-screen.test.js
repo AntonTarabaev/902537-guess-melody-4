@@ -23,8 +23,13 @@ it(`GenreQuestionScreen is rendered correctly`, () => {
       <GenreQuestionScreen
         onAnswer={() => {}}
         question={question}
+        renderPlayer={() => {}}
       />
-  ).toJSON();
+      , {
+        createNodeMock() {
+          return {};
+        }
+      }).toJSON();
 
   expect(tree).toMatchSnapshot();
 });
