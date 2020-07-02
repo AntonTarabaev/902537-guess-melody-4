@@ -1,0 +1,80 @@
+import {extend} from "@root/utils";
+import {GameType} from "@root/consts";
+import questions from "@root/mocks/questions";
+
+const initialState = {
+  mistakes: 0,
+  maxMistakes: 3,
+  step: -1,
+  questions,
+};
+
+const ActionType = {
+  INCREMENT_MISTAKES: `INCREMENT_MISTAKES`,
+  INCREMENT_STEP: `INCREMENT_STEP`,
+};
+
+const isArtistAnswerCorrect = (question, userAnswer) => {
+  return question.song.artist === userAnswer.artist;
+};
+
+const isGenreAnswerCorrect = (question, userAnswer) => {
+  return userAnswer.every((it, i) => {
+    return it === (question.answers[i].genre === question.genre);
+  });
+};
+
+const ActionCreator = {
+  incrementStep: () => ({
+    type: ActionType.INCREMENT_STEP,
+    payload: 1,
+  }),
+
+  incrementMistakes: (question, answer) => {
+    let answerIsCorrect = false;
+
+    switch (question.type) {
+      case GameType.ARTIST:
+        answerIsCorrect = isArtistAnswerCorrect(question, answer);
+        break;
+      case GameType.GENRE:
+        answerIsCorrect = isGenreAnswerCorrect(question, answer);
+        break;
+    }
+
+    return {
+      type: ActionType.INCREMENT_MISTAKES,
+      payload: answerIsCorrect ? 0 : 1,
+    };
+  },
+};
+
+const reducer = (state = initialState, action) => {
+  switch (action.type) {
+    case ActionType.INCREMENT_STEP:
+      const nextStep = state.step + action.payload;
+
+      if (nextStep >= state.questions.length) {
+        return extend({}, initialState);
+      }
+
+      return extend(state, {
+        step: nextStep,
+      });
+
+    case ActionType.INCREMENT_MISTAKES:
+      const mistakes = state.mistakes + action.payload;
+
+      if (mistakes > state.maxMistakes) {
+        return extend({}, initialState);
+      }
+
+      return extend(state, {
+        mistakes,
+      });
+  }
+
+  return state;
+};
+
+export {reducer, ActionType, ActionCreator};
