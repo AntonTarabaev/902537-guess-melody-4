@@ -1,4 +1,7 @@
-import AudioPlayer from "@root/components/audio-player/audio-player";
+import Player from "@root/components/audio-player/audio-player";
+import withAudio from "@root/hocs/with-audio/with-audio";
+
+const AudioPlayer = withAudio(Player);
 
 const withActivePlayer = (Component) => {
   class WithActivePlayer extends React.PureComponent {
