@@ -47,7 +47,7 @@ const withAudio = (Component) => {
 
     componentDidUpdate() {
       const audio = this._audioRef.current;
-      const {isPlaying} = this.state;
+      const {isPlaying} = this.props;
 
       if (isPlaying) {
         return audio.play();
