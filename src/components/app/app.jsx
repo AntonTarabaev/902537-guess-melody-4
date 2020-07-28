@@ -13,7 +13,8 @@ import WinScreen from "@root/components/win-screen/win-screen";
 import {getAuthorizationStatus} from "@root/reducer/user/selectors";
 import {getMaxMistakes, getMistakes, getStep} from "@root/reducer/game/selectors";
 import {getQuestions} from "@root/reducer/data/selectors";
-import {Operation as UserOperation} from "@root/reducer/user/user";
+import {AuthorizationStatus, Operation as UserOperation} from "@root/reducer/user/user";
+import AuthScreen from "@root/components/auth-screen/auth-screen";
 
 const GenreQuestionScreenWrapped = withActivePlayer(withUserAnswer(GenreQuestionScreen));
 const ArtistQuestionScreenWrapped = withActivePlayer(ArtistQuestionScreen);
@@ -21,6 +22,8 @@ const ArtistQuestionScreenWrapped = withActivePlayer(ArtistQuestionScreen);
 class App extends React.PureComponent {
   _renderGameScreen() {
     const {
+      authorizationStatus,
+      login,
       maxMistakes,
       mistakes,
       questions,
@@ -49,6 +52,15 @@ class App extends React.PureComponent {
     }
 
     if (step >= questions.length) {
+      if (authorizationStatus === AuthorizationStatus.NO_AUTH) {
+        return (
+          <AuthScreen
+            onSubmit={login}
+            onReplayButtonClick={resetGame}
+          />
+        );
+      }
+
       return (
         <WinScreen
           questionsCount={questions.length}
@@ -116,6 +128,8 @@ class App extends React.PureComponent {
 }
 
 App.propTypes = {
+  authorizationStatus: PropTypes.string.isRequired,
+  login: PropTypes.func.isRequired,
   maxMistakes: PropTypes.number.isRequired,
   mistakes: PropTypes.number.isRequired,
   questions: PropTypes.array.isRequired,

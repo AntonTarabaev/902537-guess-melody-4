@@ -7,6 +7,7 @@ import {createAPI} from "@root/api";
 import thunk from "redux-thunk";
 import {Operation as DataOperation} from "@root/reducer/data/data";
 import {Operation as UserOperation, ActionCreator, AuthorizationStatus} from "@root/reducer/user/user";
+import {composeWithDevTools} from "redux-devtools-extension";
 
 const onUnauthorized = () => {
   store.dispatch(ActionCreator.requireAuthorization(AuthorizationStatus.NO_AUTH));
@@ -16,7 +17,9 @@ const api = createAPI(onUnauthorized);
 
 const store = createStore(
     rootReducer,
-    applyMiddleware(thunk.withExtraArgument(api))
+    composeWithDevTools(
+        applyMiddleware(thunk.withExtraArgument(api))
+    )
 );
 
 store.dispatch(DataOperation.loadQuestions());
